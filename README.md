@@ -1,4 +1,4 @@
-# Mickey's Clock 🕐🐭
+# Mickey's Clock 
 
 A Pygame-based analog clock using Mickey Mouse hand graphics.
 

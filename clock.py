@@ -18,26 +18,21 @@ class MickeyHand:
         angle_deg: 0 = pointing up, increases clockwise
         length: length of the arm in pixels
         """
-        # Convert angle: 0=up, clockwise positive -> math angle
         angle_rad = math.radians(-angle_deg + 90)
 
-        # Arm end point (tip of the hand)
         tip_x = center[0] + length * math.cos(angle_rad)
         tip_y = center[1] - length * math.sin(angle_rad)
 
-        # Draw arm (thick line)
         arm_width = 8
         pygame.draw.line(surface, (80, 50, 30), center, (int(tip_x), int(tip_y)), arm_width)
 
-        # Draw Mickey-style glove (circle with finger bumps)
         glove_radius = 22
         gx, gy = int(tip_x), int(tip_y)
 
-        # Main glove circle (white)
         pygame.draw.circle(surface, self.glove_color, (gx, gy), glove_radius)
-        pygame.draw.circle(surface, (0, 0, 0), (gx, gy), glove_radius, 2)  # outline
+        pygame.draw.circle(surface, (0, 0, 0), (gx, gy), glove_radius, 2)  
 
-        # Finger bumps - 4 small circles on top of main glove
+        # Finger bumps
         finger_positions = [-20, -7, 7, 20]
         finger_perp_rad = math.radians(-angle_deg + 90 + 90)  # perpendicular direction
 
@@ -47,7 +42,6 @@ class MickeyHand:
             pygame.draw.circle(surface, self.glove_color, (int(fx), int(fy)), 10)
             pygame.draw.circle(surface, (0, 0, 0), (int(fx), int(fy)), 10, 2)
 
-        # Stitch lines on glove (decorative)
         stitch1_x = gx + 8 * math.cos(finger_perp_rad)
         stitch1_y = gy - 8 * math.sin(finger_perp_rad)
         stitch2_x = gx - 8 * math.cos(finger_perp_rad)
@@ -87,19 +81,18 @@ class MickeysClock:
         cx, cy = self.center
         r = self.clock_radius
 
-        # Outer glow effect
         for i in range(5):
             glow_color = (255, 200 - i * 30, 50 - i * 5)
             pygame.draw.circle(surface, glow_color, self.center, r + 15 - i * 2, 3)
 
-        # Main clock face - cream/yellow Mickey style
+        # Main clock face 
         pygame.draw.circle(surface, (255, 250, 220), self.center, r)
         pygame.draw.circle(surface, (0, 0, 0), self.center, r, 4)
 
         # Decorative inner ring
         pygame.draw.circle(surface, (200, 180, 100), self.center, r - 15, 2)
 
-        # Hour markers (12 markers)
+        # Hour markers 
         for i in range(60):
             marker_angle = math.radians(i * 6 - 90)
             if i % 5 == 0:
@@ -132,7 +125,7 @@ class MickeysClock:
             num_rect = num_surf.get_rect(center=(int(nx), int(ny)))
             surface.blit(num_surf, num_rect)
 
-        # Mickey Mouse ears (two circles on top)
+        # Mickey Mouse ears
         ear_radius = 55
         left_ear_center = (cx - 145, cy - 175)
         right_ear_center = (cx + 145, cy - 175)
