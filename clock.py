@@ -63,15 +63,12 @@ class MickeysClock:
         self.center = (screen_width // 2, screen_height // 2)
         self.clock_radius = 220
 
-        # Hand lengths
         self.minute_hand_length = 160
         self.second_hand_length = 180
 
-        # Create hand objects
         self.minute_hand = MickeyHand(glove_color=(255, 255, 255))
         self.second_hand = MickeyHand(glove_color=(255, 220, 50))
 
-        # Load font for digital time display
         pygame.font.init()
         self.font_large = pygame.font.SysFont("Arial", 48, bold=True)
         self.font_small = pygame.font.SysFont("Arial", 24)
@@ -89,7 +86,6 @@ class MickeysClock:
         pygame.draw.circle(surface, (255, 250, 220), self.center, r)
         pygame.draw.circle(surface, (0, 0, 0), self.center, r, 4)
 
-        # Decorative inner ring
         pygame.draw.circle(surface, (200, 180, 100), self.center, r - 15, 2)
 
         # Hour markers 
@@ -114,7 +110,6 @@ class MickeysClock:
             y2 = cy + outer * math.sin(marker_angle)
             pygame.draw.line(surface, color, (int(x1), int(y1)), (int(x2), int(y2)), width)
 
-        # Hour numbers
         hour_font = pygame.font.SysFont("Arial", 28, bold=True)
         for i in range(1, 13):
             angle = math.radians(i * 30 - 90)
@@ -133,7 +128,6 @@ class MickeysClock:
         pygame.draw.circle(surface, (20, 20, 20), left_ear_center, ear_radius)
         pygame.draw.circle(surface, (20, 20, 20), right_ear_center, ear_radius)
 
-        # Mickey face elements
         # Eyes
         pygame.draw.circle(surface, (20, 20, 20), (cx - 45, cy - 35), 15)
         pygame.draw.circle(surface, (20, 20, 20), (cx + 45, cy - 35), 15)
@@ -148,7 +142,6 @@ class MickeysClock:
         pygame.draw.arc(surface, (20, 20, 20),
                         (cx - 55, cy, 110, 50), math.pi, 2 * math.pi, 4)
 
-        # "MM" text on clock
         mm_surf = self.font_small.render("MICKEY", True, (180, 100, 0))
         mm_rect = mm_surf.get_rect(center=(cx, cy + 65))
         surface.blit(mm_surf, mm_rect)
@@ -160,11 +153,9 @@ class MickeysClock:
         min_label = self.font_small.render("MIN →", True, (255, 255, 255))
         surface.blit(min_label, (20, self.height - 80))
 
-        # Seconds label
         sec_label = self.font_small.render("SEC →", True, (255, 220, 50))
         surface.blit(sec_label, (20, self.height - 50))
 
-        # Glove legend
         pygame.draw.circle(surface, (255, 255, 255), (100, self.height - 72), 10)
         pygame.draw.circle(surface, (255, 220, 50), (100, self.height - 42), 10)
 
@@ -174,24 +165,17 @@ class MickeysClock:
         minutes: 0-59
         seconds: 0-59
         """
-        # Calculate rotation angles
-        # 0 minutes/seconds = pointing up (12 o'clock)
-        # Full rotation = 60 steps
-        minute_angle = minutes * 6  # 360/60 = 6 degrees per minute
-        second_angle = seconds * 6  # 6 degrees per second
+       
+        minute_angle = minutes * 6  
+        second_angle = seconds * 6  
 
-        # Draw clock face
         self._draw_clock_face(surface)
-
-        # Draw second hand (yellow glove) - behind minute hand
+ 
         self.second_hand.draw(surface, self.center, second_angle, self.second_hand_length)
 
-        # Draw minute hand (white glove) - on top
         self.minute_hand.draw(surface, self.center, minute_angle, self.minute_hand_length)
 
-        # Center cap (black circle)
         pygame.draw.circle(surface, (20, 20, 20), self.center, 12)
         pygame.draw.circle(surface, (80, 80, 80), self.center, 12, 2)
 
-        # Draw labels
         self._draw_labels(surface)
